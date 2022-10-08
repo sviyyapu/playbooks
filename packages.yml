@@ -1,0 +1,13 @@
+---
+- name: install apache2, sqlite3, git
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Install list of packages
+      apt: 
+        name: "{{item}}" 
+        state: present
+      with_items:
+        - apache2
+        - sqlite3
+        - git

@@ -1,0 +1,15 @@
+- hosts: testservers
+  tasks:
+  - name: copy directories recursively
+    copy:
+      src: /home/sandy/Templates/{{item}}
+      dest: /tmp
+      mode: 0777
+      owner: sandy
+      group: sandy
+      backup: yes
+    with_items:
+##     ['test1' , 'test2' , 'sandeep/test3']
+     - test1
+     - test2
+     - sandeep/test3

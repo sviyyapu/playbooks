@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+  - name: copy directories recursively
+    copy:
+     src: /home/sandy
+     dest: /home/sandyabc

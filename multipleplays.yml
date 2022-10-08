@@ -1,0 +1,34 @@
+## THIS PLAYBOOK HAS MULTIPLE TASKS USING COMMAND , SHELL , ENVIRONMENT , MULTIPLECOMMANDS USING LOOP, PASSING ARGS. ##
+
+
+- hosts: webserver
+  tasks:
+  - name: create a file using the args upon ensuring directory exists
+    file:
+      path: /tmp/multiplays
+      state: directory
+
+  - name: creating file using command module
+    command: touch /tmp/multiplays/testfile
+
+  - name: creating a file with content using shell module
+    shell: echo "hi this is sandeep" > /tmp/multiplays/testfile2
+#    register: output
+#  - debug: var=output
+
+  - name: creating file now!!!
+    command: touch testfile3
+    args:
+     chdir: /tmp/multiplays
+
+  - name: create a file using environment variable
+    command: touch $DIR/$FILE
+    environment:
+       DIR: /tmp
+       FILE: a.txt
+  - name: Run multiple commands using loop
+    command: "{{ item }}"
+    loop:
+      - touch /tmp/newfile.txt
+      - mkdir /tmp/ansible
+      - mv /tmp/newfile.txt /tmp/ansible

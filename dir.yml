@@ -1,0 +1,44 @@
+---
+-  hosts: testing
+   tasks:
+   - name: Download a rpm from repository
+     get_url:
+       url: http://mirror.centos.org/centos/7/os/x86_64/Packages/sendmail-8.14.7-6.el7.x86_64.rpm 
+       dest: /home
+       mode: 0755
+
+   - name: Ensure sandeep directory present under /home
+     stat:
+       path: /home/sandeep
+     register: p
+
+
+   - name: "echo if directory already existed"
+     debug:
+      msg: "directory  already exists"
+     when: p.stat.exists
+
+
+   - name: "Ansible Creating directory if not exists..."
+     file:
+      path: /home/sandeep1
+      state: directory
+      mode: 0775
+      group: root
+      owner: root
+     when: p.stat.exists == false
+
+   - name: Moving the rpm to the sandeep home directory
+     shell: cp /home/*.rpm /home/sandeep1
+
+   - name: Installing java using the rpm
+     shell: rpm -ivh --nodeps /home/sandeep1/*.rpm
+  
+#   - name: Check sendmail is installed
+#     command : yum list installed | grep -i send
+#     args:
+#     register: is_installed
+#     failed_when: is_installed.rc ! = 0
+#     changed_when: no
+
+     

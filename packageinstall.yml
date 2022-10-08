@@ -1,0 +1,33 @@
+## PLAYBOOK TO INSTALL PACKAGE / MULTIPLE PACKAGE, UPGRADE , REMOVE ##
+
+- name: running playbook on webserver group
+  hosts: webserver
+  tasks:
+   - name: install epel repo 
+     yum: 
+       name: epel-release
+       state: installed
+       update_cache: true
+     become: true
+   
+   - name: install ruby package
+     yum:
+      name: ruby
+      state: absent
+      update_cache: true
+     become: true
+     register: output
+   - debug: var=output
+   - name: install multiple packages
+     yum:
+      name:
+        - python
+        - tomcat
+        - tree
+        - wget
+      state: installed
+      update_cache: true
+     become: true
+#     register: myop
+
+#   - debug: vars=myop

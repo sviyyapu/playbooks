@@ -1,0 +1,10 @@
+- hosts: testservers
+  tasks:
+  - name: fetch files from the remote machine to the master machine!!!
+    fetch:
+     src: /tmp/test2
+     dest: /tmp/
+     mode: 0400
+     flat: yes
+     fail_on_missing: yes
+

@@ -1,0 +1,8 @@
+--- 
+  - name: check destination 
+     stat:  
+      path: /home/user/test/simplefile.txt 
+     register: p 
+  - name: copy file if not exists 
+    command: mv /tmp/simplefile.txt /home/user/test 
+    when: p.stat.exists == False

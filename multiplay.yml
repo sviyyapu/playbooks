@@ -1,0 +1,40 @@
+#### THIS PLAYBOOK CONTAINS MULTIPLE PLAYS FOR DIFFERENT HOST GROUPS
+- hosts: webserver
+  remote_user: root
+  tasks:
+  - name: Ensure apache is installed 
+    yum:
+     name: httpd 
+     state: installed
+
+  - name: Ensure sshd is running
+    service: 
+     name: sshd
+     state: started
+
+##PLAY FOR DATABASE HOSTGROUP
+- hosts: webserver
+  remote_user: root
+  tasks:
+  - name: Ensure Postgresql is installed and latest version
+    yum:
+     name: postgresql
+     state: present
+  
+  - name: Ensure postfix is installed
+    yum:
+     name: postfix
+     state: present
+
+  - name: Ensure postfix is running
+    service:
+     name: postfix
+     state: started
+
+  - name: Ensure sshd is running
+    service: 
+     name: sshd
+     state: started
+
+  - name: Ensure nfs-client is stopped
+    command: systemctl stop nfs-client.target

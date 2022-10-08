@@ -1,0 +1,5 @@
+- name: Debug Example - This is Sandeep running playbook
+  hosts: webserver
+  tasks:
+  - name: Print debug message
+    debug:

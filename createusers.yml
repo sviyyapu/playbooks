@@ -1,0 +1,20 @@
+## THIS PLAYBOOK IS FOR ADVANCE USE OF TEMPLATE AND LOOP ##
+
+- hosts: webserver
+  vars:
+   users:
+    - name: sandeep viyyapuri
+      username: SV
+    - name: viyyapuri sandeep
+      username: VS
+
+  tasks:
+  - name: Ensure that users exists
+    user:
+      name: "{{ user.username }}"
+      comment: "{{ user.name}}"
+      state: present
+    become: true
+    loop: "{{ users }}"
+    loop_control:
+     loop_var: user
