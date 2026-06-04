@@ -1,0 +1,6 @@
+---
+  - name: playbook
+    hosts: all
+    become: yes
+    tasks:
+

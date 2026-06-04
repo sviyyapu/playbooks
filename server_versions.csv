@@ -1,0 +1,4 @@
+Hostname,RHEL Version,Kernel version
+serverb is RedHat 10.1 running on 6.12.0-124.8.1.el10_1.x86_64 kernel
+serverc is RedHat 10.1 running on 6.12.0-124.8.1.el10_1.x86_64 kernel
+serverd is RedHat 10.1 running on 6.12.0-124.8.1.el10_1.x86_64 kernel

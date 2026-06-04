@@ -1,0 +1,7 @@
+2026-06-04T13:14:26.248681+00:00 ERROR 'ansible_navigator.actions.doc._run_runner' Error occurred while fetching doc for plugin mail: '[WARNING]: mail was not found
+'
+2026-06-04T13:14:56.621981+00:00 ERROR 'ansible_navigator.actions.doc._run_runner' Error occurred while fetching doc for plugin mail: '[WARNING]: mail was not found
+'
+2026-06-04T13:19:27.199174+00:00 ERROR 'ansible_navigator.actions.doc._run_runner' Error occurred while fetching doc for plugin mail: '[WARNING]: Collection community.general does not support Ansible version
+2.16.18
+'

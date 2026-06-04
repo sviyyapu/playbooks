@@ -1,0 +1,13 @@
+---
+  - name: playbook
+    hosts: all
+    become: yes
+    tasks:
+    - name: get uptime
+      command: uptime
+      register: uptime_result
+
+    - name: Show uptime result
+      debug:
+        var: uptime_result
+
