@@ -1,0 +1,21 @@
+##Playbook to get the hostname,rhelversion and kernel_version
+---
+- name: Export RHEL versions to Excel format
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Create or update local CSV file
+      delegate_to: localhost
+      run_once: true
+      ansible.builtin.lineinfile:
+        path: "./server_versions.csv"
+        line: "Hostname,RHEL Version,Kernel version"
+        create: yes
+        mode: '0644'
+
+    - name: Append host data to CSV file
+      delegate_to: localhost
+      ansible.builtin.lineinfile:
+        path: "./server_versions.csv"
+        line: "{{ inventory_hostname }},     {{ ansible_facts['distribution_version'] }},    {{ ansible_kernel }} "
+
