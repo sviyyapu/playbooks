@@ -1,0 +1,8 @@
+---
+  - name: playbook ping test
+    hosts: all
+    become: yes
+    tasks:
+    - name: check connectivity of hosts
+      ping:
+

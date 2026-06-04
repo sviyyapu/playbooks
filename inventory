@@ -1,0 +1,8 @@
+[dev]
+serverb ansible_host=192.168.0.50  
+
+[qa]
+serverc ansible_host=192.168.0.60
+
+[prod]
+serverd  ansible_host=192.168.0.70

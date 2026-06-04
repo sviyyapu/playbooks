@@ -1,0 +1,11 @@
+---
+  - name: package install
+    hosts: all
+    become: yes
+    tasks:
+    - name: install package
+      ansible.builtin.yum:
+           name: httpd
+           state: latest
+           disable_gpg_check: true
+      when: inventory_hostname in groups['dev'] or inventory_hostname in groups['qa']
