@@ -17,5 +17,5 @@
       delegate_to: localhost
       ansible.builtin.lineinfile:
         path: "./server_versions.csv"
-        line: "{{ inventory_hostname }},     {{ ansible_facts['distribution_version'] }},    {{ ansible_kernel }} "
+        line: "{{ inventory_hostname }} is a {{ ansible_facts['distribution'] }}  {{ ansible_facts['distribution_version'] }} host running on {{ ansible_kernel }} "
 
