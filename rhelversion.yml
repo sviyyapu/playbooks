@@ -1,4 +1,4 @@
-##Playbook to get the hostname,rhelversion and kernel_version
+##Playbook to get the hostname,rhelversion and kernel_version and send email using gmail
 ---
 - name: Export RHEL versions to Excel format
   hosts: all
@@ -18,4 +18,25 @@
       ansible.builtin.lineinfile:
         path: "./server_versions.csv"
         line: "{{ inventory_hostname }} is {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }} running on {{ ansible_kernel }} kernel"
+    
+    - name: Send e-mail to a bunch of users, attaching files
+      community.general.mail:
+        host: smtp.gmail.com
+        port: 587
+        username: viyyapurisandeep@gmail.com
+        password: "qzws xpsn yxyl zvoi" 
+        to: viyyusandeep@gmail.com
+        subject: Ansible-report
+        body: Hello, this is an e-mail. I hope you like it ;-)
+        from: viyyapurisandeep@gmail.com
+        to:
+          - viyyusandeep@gmail.com
+          - bnbabu369@gmail.com
+        attach:
+          - /home/sandeep/ansible/server_versions.csv
+        headers:
+          - Reply-To=viyyapurisandeep@gmail.com
+          - X-special="something or other"
+        charset: us-ascii
+      delegate_to: localhost  
 
