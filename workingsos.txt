@@ -1,0 +1,382 @@
+
+PLAY [Step 1 - Generate SOS Report on Remote Managed Hosts] ********************
+
+TASK [Gathering Facts] *********************************************************
+ok: [serverb]
+
+TASK [Generate and fetch diagnostics bundle] ***********************************
+
+TASK [infra.support_assist.sos_report : Validating arguments against arg spec 'main' - Auto-generated specs for sos_report role - main entry point] ***
+ok: [serverb]
+
+TASK [infra.support_assist.sos_report : Ensure SOS report destination root exists on control node] ***
+ok: [serverb -> localhost]
+
+TASK [infra.support_assist.sos_report : Install] *******************************
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/sos_report/tasks/install.yml for serverb
+
+TASK [infra.support_assist.sos_report : Install | Ensure sos package is installed] ***
+ok: [serverb]
+
+TASK [infra.support_assist.sos_report : Generate] ******************************
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/sos_report/tasks/generate.yml for serverb
+
+TASK [infra.support_assist.sos_report : Generate | Gather needed facts] ********
+ok: [serverb]
+
+TASK [infra.support_assist.sos_report : Generate | Generate the SOS Report] ****
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC POLL on serverb: jid=j459005948701.84733 started=1 finished=0
+ASYNC OK on serverb: jid=j459005948701.84733
+changed: [serverb]
+
+TASK [infra.support_assist.sos_report : Generate | Set SOS Report location variable] ***
+ok: [serverb]
+
+TASK [infra.support_assist.sos_report : Generate | View sosreport location on remote nodes] ***
+ok: [serverb] => {
+    "msg": "Server-side SOS Report located at: /var/tmp/sosreport-serverb-serverb-2026-06-08-ykdqdro.tar.xz"
+}
+
+TASK [infra.support_assist.sos_report : Fetch] *********************************
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/sos_report/tasks/fetch.yml for serverb
+
+TASK [infra.support_assist.sos_report : Fetch | Find the generated SOS Report] ***
+ok: [serverb]
+
+TASK [infra.support_assist.sos_report : Fetch | Ensure destination folder exists] ***
+ok: [serverb -> localhost]
+
+TASK [infra.support_assist.sos_report : Fetch | Fetch the SOS Report to the control node] ***
+changed: [serverb] => (item=sosreport-serverb-serverb-2026-06-08-ykdqdro.tar.xz)
+
+TASK [infra.support_assist.sos_report : Fetch | Build case_updates_needed variable] ***
+ok: [serverb] => (item=sosreport-serverb-serverb-2026-06-08-ykdqdro.tar.xz)
+
+TASK [infra.support_assist.sos_report : Cleanup] *******************************
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/sos_report/tasks/cleanup.yml for serverb
+
+TASK [infra.support_assist.sos_report : Cleanup | Check for old SOS Reports] ***
+ok: [serverb]
+
+TASK [infra.support_assist.sos_report : Cleanup | Delete old SOS Reports (if any were found)] ***
+changed: [serverb] => (item=sosreport-serverb-serverb-2026-06-08-ykdqdro.tar.xz)
+changed: [serverb] => (item=sosreport-serverb-serverb-2026-06-08-ykdqdro.tar.xz.sha256)
+
+PLAY [Step 2 - Open Red Hat Support Case and Upload Archive] *******************
+
+TASK [Find the downloaded tarball archive dynamically] *************************
+ok: [localhost]
+
+TASK [Fail early if no diagnostics report was found] ***************************
+skipping: [localhost]
+
+TASK [Open a new Red Hat Support Case and Upload Bundle] ***********************
+
+TASK [infra.support_assist.rh_token_refresh : Validating arguments against arg spec 'main' - Auto-generated specs for rh_token_refresh role - main entry point] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Main | Print on screen role execution status.] ***
+ok: [localhost] => {
+    "msg": [
+        "************************************************************",
+        " Starting Red Hat SSO Access Token Manager Role Execution ",
+        "************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_token_refresh : Main | Pre-Validation] ***********
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/rh_token_refresh/tasks/1-pre_validation.yml for localhost
+
+TASK [infra.support_assist.rh_token_refresh : Pre-validation | Ensure needed information was provided] ***
+ok: [localhost] => {
+    "changed": false,
+    "msg": "PASSED! Oh, Yes! => Red Hat API Offline Token provided. Proceeding with token validation..."
+}
+
+TASK [infra.support_assist.rh_token_refresh : Pre-validation | Print on screen role pre-validation status.] ***
+ok: [localhost] => {
+    "msg": [
+        "****************************************************************",
+        " Pre-Validation for Red Hat API Offline Token Refresh Started ",
+        "****************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_token_refresh : Main | Check token cache] ********
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/rh_token_refresh/tasks/2-check_cache.yml for localhost
+
+TASK [infra.support_assist.rh_token_refresh : Check token cache | Check for an existing local token cache file] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Check token cache | Read the cached token if the file exists] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Check token cache | Determine if the cached token is still valid] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Check token cache | Use the valid cached token if available] ***
+skipping: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Check token cache | Print on screen role execution status.] ***
+ok: [localhost] => {
+    "msg": [
+        "*****************************************************************",
+        "  No valid cached token found. A new token will be requested.  ",
+        "*****************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_token_refresh : Main | Refresh Token (only if needed)] ***
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/rh_token_refresh/tasks/3-refresh.yml for localhost
+
+TASK [infra.support_assist.rh_token_refresh : Refresh Token | Print on screen role execution status.] ***
+ok: [localhost] => {
+    "msg": [
+        "*****************************************************",
+        " Refreshing Red Hat Access Token via Offline Token ",
+        "*****************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_token_refresh : Refresh Token | Acquire New Red Hat SSO Access Token] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Refresh Token | Set access token fact] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Refresh Token | Cache the new token and timestamp locally] ***
+changed: [localhost]
+
+TASK [infra.support_assist.rh_token_refresh : Refresh Token | Print on screen role completion status.] ***
+ok: [localhost] => {
+    "msg": [
+        "*******************************************************",
+        " Red Hat Access Token Refresh Completed Successfully ",
+        "*******************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_token_refresh : Main | Print on screen role completion status.] ***
+ok: [localhost] => {
+    "msg": [
+        "*************************************************************",
+        " Completed Red Hat SSO Access Token Manager Role Execution ",
+        "*************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_case : Validating arguments against arg spec 'main' - Auto-generated specs for rh_case role - unified case management] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_case : Main | Determine operation mode] **********
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/rh_case/tasks/0-determine_mode.yml for localhost
+
+TASK [infra.support_assist.rh_case : Determine operation mode] *****************
+ok: [localhost]
+
+TASK [infra.support_assist.rh_case : Main | Validate operation mode] ***********
+ok: [localhost] => {
+    "changed": false,
+    "msg": "Operation mode determined: create"
+}
+
+TASK [infra.support_assist.rh_case : Main | Print on screen role execution status] ***
+ok: [localhost] => {
+    "msg": [
+        "*****************************************************************",
+        " Starting Red Hat Support Case Creation Process Role Execution ",
+        "*****************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_case : Main | Include Pre-Validation Tasks] ******
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/rh_case/tasks/1-pre_validation.yml for localhost
+
+TASK [infra.support_assist.rh_case : Pre-validation | Determine operation mode (if not already set)] ***
+skipping: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | Print on screen role execution status.] ***
+ok: [localhost] => {
+    "msg": [
+        "***************************************************************",
+        " Starting Pre-Validation for Red Hat Support Case Operations ",
+        "***************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_case : Pre-validation | Ensure Red Hat Refresh API Token was provided] ***
+ok: [localhost] => {
+    "changed": false,
+    "msg": "PASSED! Oh, Yes! => Red Hat Refresh API Token provided, proceeding..."
+}
+
+TASK [infra.support_assist.rh_case : Pre-validation | GET '/v1/accounts/current' to retrieve Account infos] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | Set facts for Account Name and Account Number Reference] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | Assert all mandatory case creation fields are provided (CREATE/HYBRID mode)] ***
+ok: [localhost] => (item={'key': 'case_summary'}) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": {
+        "key": "case_summary"
+    },
+    "msg": "PASSED! Oh, Yes! => Mandatory field 'case_summary' is defined."
+}
+ok: [localhost] => (item={'key': 'case_product'}) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": {
+        "key": "case_product"
+    },
+    "msg": "PASSED! Oh, Yes! => Mandatory field 'case_product' is defined."
+}
+ok: [localhost] => (item={'key': 'case_description'}) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": {
+        "key": "case_description"
+    },
+    "msg": "PASSED! Oh, Yes! => Mandatory field 'case_description' is defined."
+}
+ok: [localhost] => (item={'key': 'case_product_version'}) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": {
+        "key": "case_product_version"
+    },
+    "msg": "PASSED! Oh, Yes! => Mandatory field 'case_product_version' is defined."
+}
+ok: [localhost] => (item={'key': 'case_type'}) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": {
+        "key": "case_type"
+    },
+    "msg": "PASSED! Oh, Yes! => Mandatory field 'case_type' is defined."
+}
+ok: [localhost] => (item={'key': 'case_severity'}) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": {
+        "key": "case_severity"
+    },
+    "msg": "PASSED! Oh, Yes! => Mandatory field 'case_severity' is defined."
+}
+
+TASK [infra.support_assist.rh_case : Pre-validation | Assert case_id is provided (UPDATE mode)] ***
+skipping: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | Assert case_updates_needed is provided (UPDATE/HYBRID mode)] ***
+skipping: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | GET '/v1/cases' to retrieve case infos (UPDATE mode)] ***
+skipping: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | Set facts for case info (UPDATE mode)] ***
+skipping: [localhost]
+
+TASK [infra.support_assist.rh_case : Pre-validation | Print on screen role pre-validation complete.] ***
+ok: [localhost] => {
+    "msg": [
+        "*****************************************************************************",
+        " Pre-Validation for Red Hat Support Case Operations Completed Successfully ",
+        "*****************************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_case : Main | Create Case (if needed)] ***********
+included: /home/sandeep/ansible/collections/ansible_collections/infra/support_assist/roles/rh_case/tasks/2-create_case.yml for localhost
+
+TASK [infra.support_assist.rh_case : Create Case | Print on screen role execution status.] ***
+ok: [localhost] => {
+    "msg": [
+        "*****************************************************************",
+        " Starting Red Hat Support Case Creation Task Execution Process ",
+        "*****************************************************************"
+    ]
+}
+
+TASK [infra.support_assist.rh_case : Create Case | Construct case creation payload] ***
+ok: [localhost]
+
+TASK [infra.support_assist.rh_case : Create Case | Construct case creation payload (Minimal JSON Preview)] ***
+ok: [localhost] => {
+    "msg": [
+        "CASE CREATION PAYLOAD",
+        "account_name: sandeep viyyapuri",
+        "account_number_ref: 12698985",
+        "product: Red Hat Enterprise Linux",
+        "version: 9.0",
+        "summary: Automated diagnostics upload for serverb",
+        "description: System diagnostics generated automatically. Tarball archive bundle attached.",
+        "severity: 4 (Low)",
+        "caseType: Technical Support",
+        "accountNumberRef: 12698985",
+        "openshiftClusterID: Not Included",
+        "openshiftClusterVersion: Not Included"
+    ]
+}
+
+TASK [infra.support_assist.rh_case : Create Case | POST '/v1/cases' to create a new RH Support Case] ***
+fatal: [localhost]: FAILED! => {"access_control_allow_credentials": "true", "access_control_allow_headers": "Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Accept-Language, Host, Referer, User-Agent, Authorization, x-omit", "access_control_allow_methods": "GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, CONNECT, PATCH", "access_control_allow_origin": "*", "access_control_max_age": "3600", "authenticateduser": "viyyapurisandeep", "authenticationtype": "JWT", "breadcrumbid": "ID-hydra-rest-prod-126-7t6c6-1780908406759-0-325004", "changed": false, "connection": "close", "content": "{\n  \"message\" : \"Unable to create case\",\n  \"detailMessage\" : \"Cannot create case for product: Red Hat Enterprise Linux with no supported entitlements for account: 12698985\"\n}", "content_length": "174", "content_type": "application/json", "date": "Mon, 08 Jun 2026 13:03:18 GMT", "elapsed": 1, "json": {"detailMessage": "Cannot create case for product: Red Hat Enterprise Linux with no supported entitlements for account: 12698985", "message": "Unable to create case"}, "msg": "Status code was 400 and not [200, 201]: HTTP Error 400: Bad Request", "redirected": false, "server": "Jetty(9.4.19.v20190610)", "set_cookie": "32c68c8d0b056ab541d1f0726fe13b28=15162cb56e9df47c4cda1beddc5b845b; path=/; HttpOnly; Secure; SameSite=None", "status": 400, "url": "https://api.access.redhat.com/support/v1/cases", "user_agent": "ansible-httpget"}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=34   changed=1    unreachable=0    failed=1    skipped=7    rescued=0    ignored=0   
+serverb                    : ok=18   changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
