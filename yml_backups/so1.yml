@@ -1,0 +1,54 @@
+---
+# PLAY 1: Generate the sosreport on the target host(s)
+- name: Gather diagnostic sosreport from managed nodes
+  hosts: localhost 
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Execute sosreport generation
+      ansible.builtin.include_role:
+        name: infra.support_assist.sos_report
+      vars:
+        # Local path on your control node where the report will be fetched
+        sos_report_local_dest: "/tmp/sos_reports/"
+        sos_report_clean: false # Set to true to obfuscate sensitive details
+
+# PLAY 2: Open case and upload the gathered file
+- name: Create Red Hat Support Case and upload diagnostics
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    # Case configurations
+    case_summary: "TEST"
+    case_description: |
+      TEST
+    case_product: "Red Hat Enterprise Linux"
+    case_version: "9.4"
+    case_severity: "4 (Low)"
+    case_type: "Technical"
+
+  tasks:
+    - name: Find the downloaded sosreport file on control node
+      ansible.builtin.find:
+        paths: "/tmp/sos_reports/"
+        patterns: "sosreport-*.tar.*"
+      register: found_reports
+
+    - name: Ensure an sosreport was successfully gathered
+      ansible.builtin.assert:
+        that: found_reports.matched > 0
+        fail_msg: "No sosreport archive was found in /tmp/sos_reports/"
+
+    - name: Create Red Hat case and upload the file
+      ansible.builtin.include_role:
+        name: infra.support_assist.rh_case
+      vars:
+        # Pulling portal credentials from local Environment variables
+        rh_username: "{{ lookup('ansible.builtin.env', 'REDHAT_USERNAME') }}"
+        rh_password: "{{ lookup('ansible.builtin.env', 'REDHAT_PASSWORD') }}"
+        
+        # Path to the file we want to attach to the new case
+        case_file: "{{ found_reports.files[0].path }}"
+

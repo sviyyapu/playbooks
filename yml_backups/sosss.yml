@@ -1,0 +1,21 @@
+---
+- name: Create and Upload SOS Report to Red Hat Support
+  hosts: localhost
+  become: true
+  vars:
+    # The active Red Hat Support Case ID
+    caseNumber: "04464083"
+    
+    # Red Hat Customer Portal Details
+    rhn_user: "viyyapurisandeep"
+    rhn_pass: 
+    
+    # Optional settings
+    upload: true
+    sosreport_delete_local_sosreports: true
+
+  tasks:
+    - name: Run Red Hat Support Assist SOS Report Role
+      ansible.builtin.include_role:
+        name: infra.support_assist.sos_report
+

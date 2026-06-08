@@ -1,0 +1,81 @@
+---
+- name: Generate and upload sos report
+  hosts: localhost
+  become: yes
+  vars_prompt:
+    - name: caseid
+      prompt: "Enter your redhat case id.."
+      private: false
+
+    - name: loginid
+      prompt: "Enter your redhat login id"
+      private: false
+
+    - name: rhpassword
+      prompt: "Enter your redhat login password"
+      private: true
+      confirm: true
+
+  tasks:
+    - name: Display the entered redhat login id
+      ansible.builtin.debug:
+        msg: "Entered username is {{ loginid }}"
+
+    - name: Display the entered redhat case id
+      ansible.builtin.debug:
+        msg: "Entered case id is {{ caseid }}"
+
+    # TASK 1: Generate the SOS report locally
+    - name: Generate SOS report locally
+      ansible.builtin.command: >
+        sos report
+        --batch
+        --case-id {{ caseid | quote }}
+      register: sos_generation
+      changed_when: true
+
+    # Helper Task: Dynamically locate the generated .tar.xz archive in /var/tmp
+    - name: Locate the generated archive
+      ansible.builtin.find:
+        paths: /var/tmp
+        patterns: "sosreport-*.tar.xz"
+        age: "-5m"  # Only look for files created in the last 5 minutes
+      register: found_reports
+
+    - name: Fail if no report was found
+      ansible.builtin.fail:
+        msg: "Could not find the newly generated SOS report in /var/tmp"
+      when: found_reports.matched == 0
+    
+    # Helper Task: Get file metadata (including size)
+    - name: Get metadata of the generated archive
+      ansible.builtin.stat:
+        path: "{{ found_reports.files[0].path }}"
+      register: report_stat
+
+    # Helper Task: Convert bytes to Megabytes for display
+    - name: Display SOS report archive file size
+      ansible.builtin.debug:
+        msg: "The SOS report file size is {{ (report_stat.stat.size / 1024 / 1024) | round(2) }} MB"
+
+
+    # TASK 2: Upload the specific file to Red Hat with async tracking
+    - name: Upload SOS report to Red Hat case
+      ansible.builtin.command: >
+        sos upload {{ found_reports.files[0].path | quote }}
+        --case-id {{ caseid | quote }}
+        --upload-user {{ loginid | quote }}
+        --batch
+        --upload-protocol https
+        --password {{ rhpassword }}
+      environment:
+        SOSUPLOADPASSWORD: "{{ rhpassword }}"
+      async: 1800
+      poll: 10
+      register: sos_upload_output
+      changed_when: true
+
+    - name: Display SOS upload details
+      ansible.builtin.debug:
+        var: sos_upload_output.stdout_lines
+

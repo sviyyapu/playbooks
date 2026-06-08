@@ -1,0 +1,44 @@
+---
+  - name: Generate and upload sos report 
+    hosts: localhost
+    become: yes
+    vars_prompt:
+       - name: caseid
+         prompt: "Enter your redhat case id.."
+         private: false
+       
+       - name: loginid
+         prompt: "Enter your redhat login id"
+         private: false
+         default: 
+       
+       - name: rhpassword
+         prompt: "Enter your redhat login password"
+         private: true
+         confirm: true
+    tasks:
+    - name: display the entered redhat login id 
+      ansible.builtin.debug:
+          msg: " Entered username is {{ loginid }}"
+    
+    - name: display the entered redhat case id 
+      ansible.builtin.debug:
+          msg: "Entered caseid is {{ caseid }}"
+    
+    - name: Generate SOS report and upload to case
+      ansible.builtin.command: >
+        sos report 
+        --batch 
+        --case-id {{ caseid | quote }}
+        --upload 
+        --upload-user {{ loginid | quote }} 
+      environment:
+        SOSUPLOADPASSWORD:  "{{ rhpassword }}"
+      async: 1800
+      poll: 10
+      register: sos_output
+      changed_when: true
+    
+    - name: Display SOS execution details
+      ansible.builtin.debug:
+         var: sos_output.stdout_lines

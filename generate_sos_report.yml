@@ -1,0 +1,78 @@
+---
+  - name: generate_sos_report
+    hosts: serverb
+    become: yes
+    vars:
+     remotedir: "/var/tmp"
+     localdir: "./collected_sos_reports"
+     rh_username: "viyyapurisandeep"
+     rh_password: "EA_amazon$1234"
+     case_summary: "Test case"
+     case_description: "Test case for automation"
+     case_severity: "4"
+     case_product: "Red Hat Enterprise Linux"
+
+    tasks:
+    - name: Ensure the sos package is installed
+      ansible.builtin.yum:
+        name: sos
+        state: present
+        disable_gpg_check: no
+
+    - name: Run the SOS report command
+      ansible.builtin.shell: "sos report --batch --tmp-dir {{ remotedir }}"
+      register: sos_output
+      changed_when: true
+    
+    - name: Find the path of the created SOS archive
+      ansible.builtin.find:
+        paths: "{{ remotedir }}"
+        patterns: "sosreport-*.tar.xz"
+      register: found_files
+
+    - name: Fail if no SOS report archive was found
+      ansible.builtin.fail:
+        msg: "Could not find the generated SOS report in {{ remotedir }}"
+      when: found_files.matched == 0
+    
+    - name: Download the SOS report to the local machine
+      ansible.builtin.fetch:
+        src: "{{ found_files.files[0].path }}"
+        dest: "{{ localdir }}/{{ inventory_hostname }}/"
+        flat: true
+
+    # INTERACTING DIRECTLY WITH RED HAT REST API (NO ROLES / COLLECTIONS)
+    - name: Create a new Red Hat support case via API
+      ansible.builtin.uri:
+        url: "https://redhat.com"
+        method: POST
+        user: "{{ rh_username }}"
+        password: "{{ rh_password }}"
+        force_basic_auth: true
+        body_format: json
+        body:
+          summary: "{{ case_summary }} - {{ inventory_hostname }}"
+          description: "{{ case_description }}"
+          severity: "{{ case_severity }}"
+          product: "{{ case_product }}"
+        status_code: 201
+      register: api_case_output
+      delegate_to: localhost
+      become: false
+
+    - name: Print the newly created Case ID for reference
+      ansible.builtin.debug:
+        msg: "Successfully created Red Hat Case ID: {{ api_case_output.json.caseNumber }}"
+
+    - name: Upload the local SOS report file directly to the case
+      ansible.builtin.uri:
+        url: "https://redhat.com/{{ api_case_output.json.caseNumber }}/attachments"
+        method: POST
+        user: "{{ rh_username }}"
+        password: "{{ rh_password }}"
+        force_basic_auth: true
+        src: "/tmp/{{ inventory_hostname }}_sosreport.tar.xz"
+        remote_src: false
+        status_code: 201
+      delegate_to: localhost
+      become: false

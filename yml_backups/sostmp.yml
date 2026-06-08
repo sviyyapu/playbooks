@@ -1,0 +1,58 @@
+ for these)
+    rh_username: "your_portal_username"
+    rh_password: "your_portal_password"
+    
+    # Details for creating the new support ticket
+    case_summary: "Automated production server diagnostic upload"
+    case_description: "System experiencing performance issues. SOS report automatically collected via Ansible."
+    case_severity: "3"  # 1=Urgent, 2=High, 3=Medium, 4=Low
+    case_product: "Red Hat Enterprise Linux"
+
+  tasks:
+    - name: Ensure the sos package is installed
+      ansible.builtin.package:
+        name: sos
+        state: present
+
+    - name: Run the SOS report command
+      ansible.builtin.shell: "sos report --batch --tmp-dir {{ remote_tmp_dir }}"
+      register: sos_output
+      changed_when: true
+
+    - name: Find the path of the created SOS archive
+      ansible.builtin.find:
+        paths: "{{ remote_tmp_dir }}"
+        patterns: "sosreport-*.tar.xz,secured-sosreport-*.tar.xz"
+      register: found_files
+
+    - name: Fail if no SOS report archive was found
+      ansible.builtin.fail:
+        msg: "Could not find the generated SOS report in {{ remote_tmp_dir }}"
+      when: found_files.matched == 0
+
+    # START OF NEW CUSTOMER PORTAL INTEGRATION TASKS
+    - name: Create a new Red Hat support case
+      infra.support_assist.rh_case:
+        username: "{{ rh_username }}"
+        password: "{{ rh_password }}"
+        state: present
+        summary: "{{ case_summary }} - {{ inventory_hostname }}"
+        description: "{{ case_description }}"
+        severity: "{{ case_severity }}"
+        product: "{{ case_product }}"
+      register: new_rh_case
+      delegate_to: localhost
+      become: false
+
+    - name: Print the newly created Case ID for reference
+      ansible.builtin.debug:
+        msg: "Successfully created Red Hat Case ID: {{ new_rh_case.case_number }}"
+
+    - name: Upload the generated SOS report file directly to the case
+      infra.support_assist.rh_case:
+        username: "{{ rh_username }}"
+        password: "{{ rh_password }}"
+        state: attachment
+        case_number: "{{ new_rh_case.case_number }}"
+        file_path: "{{ found_files.files[0].path }}"
+

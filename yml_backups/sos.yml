@@ -1,0 +1,49 @@
+---
+- name: Open a Red Hat Support Case Automatically
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - secrets.yml
+
+  vars:
+    # Use the token for API authentication
+    rh_support_token: "{{ redhat_api_token }}"
+  vars_prompt:
+    - name: summary
+      prompt: "Enter the rh_case summary"
+      private: false
+    - name: descrption
+      prompt: "Enter rh_case descrption"
+      private: false
+    - name: severity
+      prompt: "Enter rhcase severity"
+      private: false
+      
+    # Define the core support ticket details
+    rh_case_summary: {{ summary }}
+    rh_case_description: {{ description }}
+    
+    # Severity levels: 1 (Urgent), 2 (High), 3 (Normal), 4 (Low)
+    rh_case_severity: {{ severity }}
+    
+    # Exact product name and component matching Red Hat's catalog
+    rh_case_product: "Red Hat Enterprise Linux"
+    rh_case_component: "storage"
+    
+    # Optional path to local diagnostics you want to automatically upload
+    rh_case_file_path: "/var/tmp/sosreport-servera-2026-06-04-ltladpo.tar.xz"
+
+  tasks:
+    - name: Execute Red Hat Support Case creation process
+      ansible.builtin.include_role:
+        name: infra.support_assist.rh_case
+      vars:
+        # Map the playbook parameters into the role's expected execution variables
+        rh_case_action: "create"
+        rh_case_summary_text: "{{ rh_case_summary }}"
+        rh_case_description_text: "{{ rh_case_description }}"
+        rh_case_severity_level: "{{ rh_case_severity }}"
+        rh_case_product_name: "{{ rh_case_product }}"
+        rh_case_component_name: "{{ rh_case_component }}"
+        rh_case_upload_file: "{{ rh_case_file_path }}"
+
