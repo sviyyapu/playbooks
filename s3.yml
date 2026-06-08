@@ -1,0 +1,52 @@
+---
+- name: Step 1 - Generate SOS Report on Remote Managed Hosts
+  hosts: serverb
+  become: true
+  gather_facts: true
+  vars:
+    # Overriding paths ensures your control node user has full write permissions
+    sos_report_local_dest_dir: "/tmp/sos_reports"
+  
+  tasks:
+    - name: Generate and fetch diagnostics bundle
+      ansible.builtin.include_role:
+        name: infra.support_assist.sos_report
+
+- name: Step 2 - Open Red Hat Support Case and Upload Archive
+  hosts: localhost
+  gather_facts: false
+  vars:
+    sos_report_local_dest_dir: "/tmp/sos_reports"
+
+  tasks:
+    - name: Find the downloaded tarball archive dynamically
+      ansible.builtin.find:
+        paths: "{{ sos_report_local_dest_dir }}/serverb"
+        patterns: "*.tar.xz"
+      register: found_archives
+
+    - name: Fail early if no diagnostics report was found
+      ansible.builtin.fail:
+        msg: "No .tar.xz SOS report bundle found in {{ sos_report_local_dest_dir }}/serverb"
+      when: found_archives.matched == 0
+
+    - name: Open a new Red Hat Support Case and Upload Bundle
+      ansible.builtin.include_role:
+        name: infra.support_assist.rh_case
+      vars:
+        # Authentication
+        offline_token: "{{ lookup('ansible.builtin.env', 'RH_OFFLINE_TOKEN') }}"
+
+        # Mandatory Creation Parameters
+        case_summary: "Automated diagnostics upload for serverb"
+        case_description: "System diagnostics generated automatically. Tarball archive bundle attached."
+        case_severity: "4 (Low)"
+        case_type: "Technical Support"
+        case_product: "Red Hat Enterprise Linux"
+        case_product_version: "9.0"
+
+        # Dynamic Attachment Upload Mapping
+        case_updates_needed:
+          - attachment: "{{ found_archives.files[0].path }}"
+            attachmentDescription: "Automated system sosreport archive for investigation."
+
