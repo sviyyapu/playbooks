@@ -1,0 +1,14 @@
+---
+- name: Gather hardware data and create a report on the control node
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Generate the hardware report on the control node
+      delegate_to: localhost
+      run_once: true
+      ansible.builtin.template:
+        src: templates/hardware_report.md.j2
+        dest: "./hardware_report.txt"
+        mode: '0644'
+

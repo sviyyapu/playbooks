@@ -1,0 +1,28 @@
+# Infrastructure Hardware Report
+Generated on: {{ lookup('pipe', 'date "+%Y-%m-%d %H:%M:%S"') }}
+
+-----------------------------------------------------------------------------------------
+
+{% for host in groups['all'] %}
+{% set facts = hostvars[host] %}
+## Host: {{ host }}
+* **Operating System:** {{ facts.ansible_distribution }} {{ facts.ansible_distribution_version }}
+* **Uptime:** {{ (facts.ansible_uptime_seconds | int / 60) | int }} minutes
+* **CPU Model:** {{ facts.ansible_processor[-1] if facts.ansible_processor is defined else 'Unknown' }}
+* **Total VCPUs:** {{ facts.ansible_processor_vcpus | default('Unknown') }}
+* **Total Memory:** {{ facts.ansible_memtotal_mb | default(0) }} MB
+* **Free Memory:** {{ facts.ansible_memfree_mb | default(0) }} MB
+* **Primary IP Address:** {{ facts.ansible_default_ipv4.address | default('No IP') }}
+
+### Disk Storage Info:
+{% if facts.ansible_mounts is defined %}
+{% for mount in facts.ansible_mounts %}
+* **Mount Point:** `{{ mount.mount }}` | **Size Total:** {{ (mount.size_total / 1024 / 1024 / 1024) | round(2) }} GB | **Size Available:** {{ (mount.size_available / 1024 / 1024 / 1024) | round(2) }} GB
+{% endfor %}
+{% else %}
+* No disk information found.
+{% endif %}
+
+-----------------------------------------------------------------------------------------
+{% endfor %}
+
