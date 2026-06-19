@@ -1,0 +1,49 @@
+# Infrastructure Hardware Report
+Generated on: 2026-06-19 11:47:07
+
+-----------------------------------------------------------------------------------------
+
+## Host: serverb
+* **Operating System:** RedHat 10.1
+* **Uptime:** 599 minutes
+* **CPU Model:** Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+* **Total VCPUs:** 1
+* **Total Memory:** 954 MB
+* **Free Memory:** 122 MB
+* **Primary IP Address:** 192.168.0.50
+
+### Disk Storage Info:
+* **Mount Point:** `/` | **Size Total:** 16.93 GB | **Size Available:** 12.48 GB
+* **Mount Point:** `/boot` | **Size Total:** 0.94 GB | **Size Available:** 0.59 GB
+
+-----------------------------------------------------------------------------------------
+## Host: serverc
+* **Operating System:** RedHat 10.1
+* **Uptime:** 599 minutes
+* **CPU Model:** Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+* **Total VCPUs:** 1
+* **Total Memory:** 954 MB
+* **Free Memory:** 126 MB
+* **Primary IP Address:** 192.168.0.60
+
+### Disk Storage Info:
+* **Mount Point:** `/` | **Size Total:** 16.93 GB | **Size Available:** 12.57 GB
+* **Mount Point:** `/boot` | **Size Total:** 0.94 GB | **Size Available:** 0.59 GB
+
+-----------------------------------------------------------------------------------------
+## Host: serverd
+* **Operating System:** RedHat 10.1
+* **Uptime:** 597 minutes
+* **CPU Model:** Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz
+* **Total VCPUs:** 1
+* **Total Memory:** 954 MB
+* **Free Memory:** 148 MB
+* **Primary IP Address:** 192.168.0.70
+
+### Disk Storage Info:
+* **Mount Point:** `/` | **Size Total:** 16.93 GB | **Size Available:** 12.46 GB
+* **Mount Point:** `/app` | **Size Total:** 1.9 GB | **Size Available:** 1.78 GB
+* **Mount Point:** `/boot` | **Size Total:** 0.94 GB | **Size Available:** 0.59 GB
+
+-----------------------------------------------------------------------------------------
+

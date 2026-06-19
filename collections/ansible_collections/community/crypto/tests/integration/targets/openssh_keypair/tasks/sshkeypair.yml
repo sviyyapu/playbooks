@@ -1,0 +1,19 @@
+---
+- name: Generate SSH Keys for Users
+  hosts: all
+  become: true
+  vars:
+    target_user: "sandeep"
+    
+  tasks:
+    - name: Create SSH key for the user
+      # Updated from ansible.builtin to community.crypto
+      community.crypto.openssh_keypair:
+        path: "/home/{{ target_user }}/.ssh/id_rsa"
+        type: rsa
+        size: 4096
+        owner: "{{ target_user }}"
+        group: "{{ target_user }}"
+        mode: '0600'
+        force: false
+

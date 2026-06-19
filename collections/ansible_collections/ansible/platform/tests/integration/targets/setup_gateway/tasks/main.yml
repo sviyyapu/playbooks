@@ -1,0 +1,22 @@
+---
+- name: Validate server is up with a URI call
+  ansible.builtin.uri:
+    url: "{{ gateway_hostname }}/api/gateway/v1/settings/"
+    force_basic_auth: true
+    url_username: "{{ gateway_username }}"
+    url_password: "{{ gateway_password }}"
+    validate_certs: "{{ gateway_validate_certs }}"
+  delegate_to: localhost
+  register: server_ping
+  until: server_ping is not failed
+  retries: 30
+  delay: 2
+
+- name: Configure connection mode for this test run
+  ansible.builtin.set_fact:
+    ansible_connection: >-
+      {{ 'ansible.platform.http' if connection_mode | default('local') in ['http-direct', 'http-persistent'] else 'local' }}
+    ansible_platform_use_persistent_connection: >-
+      {{ connection_mode | default('local') == 'http-persistent' }}
+  when: connection_mode is defined
+...

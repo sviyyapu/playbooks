@@ -1,0 +1,51 @@
+---
+- name: Create Red Hat Support Case and Upload Diagnostics
+  hosts: serverb
+  become: true
+  gather_facts: true
+  collections:
+    - infra.support_assist
+  vars:
+    # --- Case Creation Details ---
+    # These variables control the new support ticket parameters
+    rh_case_summary: "Production server storage bottleneck and performance drop"
+    rh_case_description: "The application server is experiencing high I/O wait times under heavy load."
+    rh_case_severity: "3" # 1 (Critical) to 4 (Low)
+    rh_case_product: "Red Hat Enterprise Linux"
+    rh_case_version: "9.4"
+
+    # --- SOS Report Configuration ---
+    clean: true       # Obfuscates sensitive data like IP addresses and usernames
+    upload: true      # Automatically uploads the generated report to Red Hat
+
+  tasks:
+    # STEP 1: Create the support case on the Red Hat portal
+    # This runs once on your local controller host to avoid making duplicate cases
+    - name: Open a new Red Hat Support Case
+      infra.support_assist.rh_case:
+        summary: "{{ rh_case_summary }}"
+        description: "{{ rh_case_description }}"
+        severity: "{{ rh_case_severity }}"
+        product: "{{ rh_case_product }}"
+        version: "{{ rh_case_version }}"
+        state: present
+      delegate_to: localhost
+      run_once: true
+      register: redhat_case_output
+
+    # STEP 2: Extract and register the newly generated Case ID
+    - name: Set Case ID fact for target servers
+      ansible.builtin.set_fact:
+        case_id: "{{ redhat_case_output.case.caseNumber }}"
+
+    # STEP 3: Debug statement to confirm successful ticket creation
+    - name: Log the newly created case information
+      ansible.builtin.debug:
+        msg: "Successfully created Case #{{ case_id }}. Proceeding to gather diagnostics."
+      run_once: true
+
+    # STEP 4: Generate the report on your servers and link it to the Case ID
+    - name: Generate and upload sos report to the case
+      ansible.builtin.include_role:
+        name: infra.support_assist.sos_report
+

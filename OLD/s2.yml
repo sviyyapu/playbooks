@@ -1,0 +1,21 @@
+---
+- name: Collect diagnostics and open case
+  hosts: localhost
+  gather_facts: false
+  
+  # Add this block right here:
+  collections:
+    - infra.support_assist
+
+  tasks:
+    # This runs once on your local controller host to avoid making duplicate cases
+    #     # This runs once on your local controller host to avoid making duplicate cases
+    - name: Open a new Red Hat Support Case
+      ansible.builtin.include_role:
+        name: infra.support_assist.rh_case
+      vars:
+        # Pass your required configuration variables here
+        case_summary: "Serverb diagnostics"
+        case_description: "Automated report upload"
+        case_severity: "4 (Low)"
+

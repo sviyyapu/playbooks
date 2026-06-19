@@ -1,0 +1,27 @@
+---
+- name: Gather Hardware Info and Create Report
+  hosts: all
+  gather_facts: true  # Required to collect hardware data automatically
+
+  tasks:
+    - name: Create or clear the report file on the control node
+      ansible.builtin.copy:
+        content: "--- MANAGED NODES HARDWARE REPORT ---\nGenerated on: {{ ansible_date_time.date }} {{ ansible_date_time.time }}\n\n"
+        dest: "./report.txt"
+      delegate_to: localhost
+#      run_once: true  # Runs only once on the control node, not for every host
+
+    - name: Append hardware information to report.txt
+      ansible.builtin.blockinfile:
+        path: "./report.txt"
+        marker: "# {mark} SYSTEM INFO FOR {{ inventory_hostname }} \n"
+        block: |
+          Hostname:     {{ ansible_hostname }}
+          OS System:    {{ ansible_distribution }} {{ ansible_distribution_version }}
+          Total RAM:    {{ ansible_memtotal_mb }} MB
+          CPU Model:    {{ ansible_processor[1] | default(ansible_processor[0]) }}
+          Total Cores:  {{ ansible_processor_vcpus }}
+          IP Address:   {{ ansible_default_ipv4.address | default('No IP found') }}
+        insertafter: EOF
+      delegate_to: localhost
+

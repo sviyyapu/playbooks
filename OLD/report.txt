@@ -1,0 +1,33 @@
+--- MANAGED NODES HARDWARE REPORT ---
+Generated on: 2026-06-19 15:08:06
+
+# BEGIN SYSTEM INFO FOR serverd 
+
+Hostname:     serverd
+OS System:    RedHat 10.1
+Total RAM:    954 MB
+CPU Model:    GenuineIntel
+Total Cores:  1
+IP Address:   192.168.0.70
+# END SYSTEM INFO FOR serverd 
+
+# BEGIN SYSTEM INFO FOR serverc 
+
+Hostname:     serverc
+OS System:    RedHat 10.1
+Total RAM:    954 MB
+CPU Model:    GenuineIntel
+Total Cores:  1
+IP Address:   192.168.0.60
+# END SYSTEM INFO FOR serverc 
+
+# BEGIN SYSTEM INFO FOR serverb 
+
+Hostname:     serverb
+OS System:    RedHat 10.1
+Total RAM:    954 MB
+CPU Model:    GenuineIntel
+Total Cores:  1
+IP Address:   192.168.0.50
+# END SYSTEM INFO FOR serverb 
+

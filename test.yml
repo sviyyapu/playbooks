@@ -1,0 +1,16 @@
+---
+- name: Install User Selected Packages
+  hosts: all
+  become: true  # Required to install system packages
+
+  vars_prompt:
+    - name: user_packages
+      prompt: "Enter package names separated by spaces (e.g., git tmux curl)"
+      private: false  # Shows what the user is typing on the screen
+
+  tasks:
+    - name: Ensure packages entered by user are installed
+      ansible.builtin.package:
+        name: "{{ user_packages.split() }}"
+        state: present
+

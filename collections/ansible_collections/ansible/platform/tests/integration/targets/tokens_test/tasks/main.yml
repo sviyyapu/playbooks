@@ -1,0 +1,188 @@
+---
+- name: Generate a test ID
+  ansible.builtin.set_fact:
+    test_id: "{{ lookup('password', '/dev/null chars=ascii_letters length=16') }}"
+  when: test_id is not defined
+
+- name: Preset vars
+  ansible.builtin.set_fact:
+    name_prefix: "GW-Collection-Test-Applications-{{ test_id }}"
+
+- name: Run Test
+  module_defaults:
+    group/ansible.platform.gateway:
+      gateway_hostname: "{{ gateway_hostname }}"
+      gateway_username: "{{ gateway_username }}"
+      gateway_password: "{{ gateway_password }}"
+      gateway_validate_certs: "{{ gateway_validate_certs | bool }}"
+
+  block:
+    # <Organizations> -----------------------------
+    - name: Create Organization 1
+      ansible.platform.organization:
+        name: "{{ name_prefix }}-Organization-1"
+      register: org1
+
+    - name: Create Organization 2
+      ansible.platform.organization:
+        name: "{{ name_prefix }}-Organization-2"
+      register: org2
+    # </Organizations> ----------------------------
+
+    # </Applications> --------------------------
+    - name: Create Application 1 Org 1
+      ansible.platform.application:
+        name: "{{ name_prefix }}-app1"
+        organization: "{{ org1.organization.id }}"
+        authorization_grant_type: password
+        client_type: public
+      register: app1
+
+    - name: Create Application 1 Org 2
+      ansible.platform.application:
+        name: "{{ name_prefix }}-app1"
+        organization: "{{ org2.organization.id }}"
+        authorization_grant_type: password
+        client_type: public
+      register: app2
+
+    - name: Create a user token
+      ansible.platform.token:
+        description: "{{ name_prefix }}-test-token"
+        scope: read
+      register: user_token
+
+    - name: Assert that the token was created
+      ansible.builtin.assert:
+        that:
+          - user_token is changed
+
+    - name: Assert that the token created returned the token
+      ansible.builtin.assert:
+        that:
+          - "'token' in aap_token"
+
+    - name: Create a second token (they can not be recreated or retrieved)
+      ansible.platform.token:
+        description: "{{ name_prefix }}-test-token"
+        scope: read
+      register: user_token_two
+
+    - name: Assert that the new token is different from the old token
+      ansible.builtin.assert:
+        that:
+          - "'token' in aap_token"
+          - aap_token != user_token.ansible_facts.aap_token
+          - aap_token.token != user_token.ansible_facts.aap_token.token
+
+    - name: Fail to create an app token w/o clarification of which org we are using
+      ansible.platform.token:
+        application: "{{ name_prefix }}-app1"
+        scope: read
+      register: failed_token
+      ignore_errors: true
+
+    - name: Confirm we failed
+      ansible.builtin.assert:
+        that:
+          - failed_token is failed
+
+    - name: Create a token with write scope
+      # NOTE: scope values 'openid' and 'roles' are not supported on this
+      # gateway version — valid scopes are 'read' and 'write' only.
+      # These tests use 'write' / 'read' / '[read, write]' to cover single
+      # and combined scope variants while remaining gateway-version agnostic.
+      ansible.platform.token:
+        description: "{{ name_prefix }}-openid-token"
+        scope: write
+      register: openid_token
+
+    - name: Assert that the write scope token was created
+      ansible.builtin.assert:
+        that:
+          - openid_token is changed
+          - "'token' in aap_token"
+
+    - name: Create a token with read scope
+      ansible.platform.token:
+        description: "{{ name_prefix }}-roles-token"
+        scope: read
+      register: roles_token
+
+    - name: Assert that the read scope token was created
+      ansible.builtin.assert:
+        that:
+          - roles_token is changed
+          - "'token' in aap_token"
+
+    - name: Create a token with read + write scopes (list form)
+      ansible.platform.token:
+        description: "{{ name_prefix }}-oidc-combined-token"
+        scope:
+          - read
+          - write
+      register: combined_token
+
+    - name: Assert that the combined scope token was created
+      ansible.builtin.assert:
+        that:
+          - combined_token is changed
+          - "'token' in aap_token"
+
+    - name: Build an application token with an org
+      ansible.platform.token:
+        application: "{{ name_prefix }}-app1"
+        scope: write
+        organization: "{{ org1.organization.id }}"
+      register: app_token
+
+    - name: Assert that we created a token
+      ansible.builtin.assert:
+        that:
+          - app_token is changed
+
+  always:
+    - name: Delete user_token
+      ansible.platform.token:
+        state: absent
+        existing_token: "{{ vars[item].ansible_facts.aap_token }}"
+      loop:
+        - "user_token"
+        - "user_token_two"
+        - "openid_token"
+        - "roles_token"
+        - "combined_token"
+        - "app_token"
+      when: >-
+        item in vars
+        and vars[item] is mapping
+        and 'ansible_facts' in vars[item]
+        and 'aap_token' in vars[item].ansible_facts
+
+    - name: Delete app1
+      ansible.platform.application:
+        name: "{{ vars[item].application.name }}"
+        organization: "{{ org1.organization.id }}"
+        state: absent
+      loop:
+        - "app1"
+      when: "item in vars and 'application' in vars[item]"
+
+    - name: Delete Applications in Org2
+      ansible.platform.application:
+        name: "{{ vars[item].application.name }}"
+        organization: "{{ org2.organization.id }}"
+        state: absent
+      loop:
+        - "app2"
+      when: "item in vars and 'application' in vars[item]"
+
+    - name: Delete Organizations
+      ansible.platform.organization:
+        name: "{{ vars[item].organization.name }}"
+        state: absent
+      when: "item in vars and 'organization' in vars[item]"
+      loop:
+        - "org1"
+        - "org2"
+...

@@ -1,0 +1,43 @@
+download_url: https://console.redhat.com/api/automation-hub/v3/plugin/ansible/content/published/collections/artifacts/ansible-platform-2.7.20260604.tar.gz
+format_version: 1.0.0
+name: platform
+namespace: ansible
+server: https://console.redhat.com/api/automation-hub/
+signatures:
+- pubkey_fingerprint: 39B5D759361A97464C564A8FE1A4BD708A828AAD
+  pulp_created: '2026-06-05T09:30:57.371920Z'
+  signature: '-----BEGIN PGP SIGNATURE-----
+
+
+    iQIcBAABCAAGBQJqIpdPAAoJEOGkvXCKgoqtamgP/iQIsMAZ8HHTIt/GNe2MEwqv
+
+    24+g3DJSoSb2HWpTl6VBo0bBO1Dh6Fs3TDZ9JvvSZ+QLbzMQ6eQEGQaE9MkOP0hX
+
+    m+c7bBtWDMq33cng3MrSz7XBTKxUNy/U58yU6IZklBpBT27tUCw4zbEAH6oF9D9D
+
+    KNdFv1QqgAqnq2v5ikd/SSELS829Rf/jkHnP38yq57pMQFJmcEVUujtTJxEKde8U
+
+    tJtbQsZ1mt2YfNSpGExZ1WOJ5aoDesf5hAZPDIAiraQLUCei8w1aiPQfRjeaBYBu
+
+    KtW6AMLyExYWr/INANOE1JNJJR9X9X+/y2by0e0c1f4ihbE3sLGWhpy5DaRYn3Gp
+
+    /ZHumagoxditRZfqKDdTykfp1hJ/MbJxIx4oZCgq4Z6Tndhb/vVcaW7/eAt5Mwe7
+
+    hQoQTMdqmosPvdtaDEW0wM1/BxuYLNiyRQmeX90LcCAdmlQynocxLmxE6p5QA1uZ
+
+    sCZ3j/wo1UPE7uZqdnJaWsHe3+CSXfL1ZElCQ7qBq76AIDCE5EVEUJElOPhuCHKH
+
+    08i5KuT/ED1rw0AT2dY9qxASJZur+iZkq+gYqF6H6t1rzRe8LyF1DJ+GCtmGyOPG
+
+    lJ23h73k+yCEzXKYvmuvhO81ntLR+0e68u6b5j3kWWBNQGTUHTNC+3BAlKMT7bUY
+
+    np2bVXb96X0Pi7VMLInb
+
+    =aZTI
+
+    -----END PGP SIGNATURE-----
+
+    '
+  signing_service: null
+version: 2.7.20260604
+version_url: /api/automation-hub/v3/plugin/ansible/content/published/collections/index/ansible/platform/versions/2.7.20260604/

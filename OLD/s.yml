@@ -1,0 +1,26 @@
+---
+- name: Automate SOS Report Generation and Red Hat Case Upload
+  hosts: serverb
+  become: true
+  vars:
+    # Target Case Number provided via Extra Vars at runtime
+    case_id: "{{ target_case_number }}"
+    
+    # Toggle to true to automatically push to Red Hat APIs
+    upload: true
+    
+    # Cleans/obfuscates structural sensitive system data (IPs, MACs)
+    clean: true
+    
+    # Fetches reports to the control node before sending
+    fetch: true
+
+  environment:
+    # Pass your Red Hat portal authentication credential securely
+    REDHAT_OFFLINE_TOKEN: "{{ lookup('ansible.builtin.env', 'REDHAT_OFFLINE_TOKEN') }}"
+
+  tasks:
+    - name: Generate system diagnostic snapshot and upload
+      ansible.builtin.include_role:
+        name: infra.support_assist.sos_report
+

@@ -1,0 +1,14 @@
+---
+- name: Sequential Server Reboot
+  hosts: all
+  become: true      # Required to issue system reboot commands
+  serial: 1         # Forces Ansible to process servers one by one
+
+  tasks:
+    - name: Reboot the server and wait for it to come back online
+      ansible.builtin.reboot:
+        reboot_timeout: 600       # Maximum time (10 mins) to wait for the machine
+        connect_timeout: 10       # Timeout for the initial reconnection attempt
+        pre_reboot_delay: 2       # Gives the system 2 seconds to prep for reboot
+        post_reboot_delay: 10     # Waits 10 seconds after connection before continuing
+

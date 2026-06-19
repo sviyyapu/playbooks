@@ -31,7 +31,6 @@
         from: viyyapurisandeep@gmail.com
         to:
           - viyyusandeep@gmail.com
-          - bnbabu369@gmail.com
         attach:
           - /home/sandeep/ansible/server_versions.csv
         headers:

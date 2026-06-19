@@ -1,0 +1,29 @@
+---
+  - name: HW report
+    hosts: all
+    become: yes
+    tasks:
+    - name: Create or clear the report file on the control node
+      ansible.builtin.copy:
+        content: "--- MANAGED NODES HARDWARE REPORT ---\nGenerated on: {{ ansible_date_time.date }} {{ ansible_date_time.time }}\n\n"
+        dest: "./report.txt"
+      delegate_to: localhost
+
+    - name: Get the uptime of the servers
+      ansible.builtin.lineinfile:
+       path: ./report.txt
+       line: "The system {{ ansible_hostname }} has been up for {{ (ansible_uptime_seconds | int / 60) | round(1) }} minutes."
+      delegate_to: localhost
+
+    - name: Get the redhat version of servers
+      ansible.builtin.lineinfile:
+        path: ./report.txt
+        line: " system {{ ansible_hostname }} is a Redhat {{ ansible_distribution_version }} server"
+      delegate_to: localhost
+
+    - name: Get the kernel version of servers
+      ansible.builtin.lineinfile:
+        path: ./report.txt
+        line: " system {{ ansible_hostname }} is running on {{ ansible_kernel }}"
+      delegate_to: localhost
+
