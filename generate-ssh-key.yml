@@ -6,9 +6,10 @@
        - name: target_user
          prompt: "Enter target user on hosts.."
          private: false
-  vars:
-    key_comment: "{{ target_user }}@{{ ansible_hostname }}"
-    ssh_key_type: "rsa"    # Recommended over RSA for modern systems
+       
+       - name: ssh_key_type
+         prompt: "Enter key encryption type from(dsa | ecdsa | ecdsa-sk | ed25519 | ed25519-sk | rsa)"
+         private: false
 
   tasks:
     - name: Ensure the user's .ssh directory exists
@@ -27,7 +28,7 @@
         owner: "{{ target_user }}"
         group: "{{ target_user }}"
         mode: '0600'
-        comment: "{{ key_comment }}"
+ #       comment: "{{ key_comment }}"
         state: present
       register: ssh_key_info
 
@@ -39,4 +40,4 @@
 #  vars:
 #    target_user: "sandeep"      # Replace with your target username
 #    ssh_key_type: "rsa"    # Recommended over RSA for modern systems
-
+#key_comment: "{{ target_user }}@{{ ansible_hostname }}"
