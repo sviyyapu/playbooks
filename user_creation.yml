@@ -1,0 +1,44 @@
+---
+  - name: create users
+    hosts: all
+    become: yes
+    vars_files:
+        - users_list.yml
+    tasks:
+    - name: create groups
+      ansible.builtin.group:
+         name: managers
+         state: present
+      when: inventory_hostname in groups['prod']
+
+    - name: create groups
+      ansible.builtin.group:
+         name: developers
+         state: present
+      when: inventory_hostname in groups['dev']
+
+    - name: create users with job description of developer
+      ansible.builtin.user:
+          name: "{{ item.name }}"
+          comment: "{{ item.job }}"
+          groups: developers
+          password_expire_max: 10
+          generate_ssh_key: yes
+          ssh_key_bits: 2048
+          ssh_key_file: .ssh/id_rsa
+      loop: "{{ users }}"
+      when: item.job=="developer" and inventory_hostname in groups['dev']
+
+    - name: create users with job description of developer
+      ansible.builtin.user:
+          name: "{{ item.name }}"
+          comment: "{{ item.job }}"
+          groups: managers
+          password_expire_max: 10
+          generate_ssh_key: yes
+          ssh_key_bits: 2048
+          ssh_key_file: .ssh/id_rsa
+      loop: "{{ users }}"
+      when: item.job=="manager" and inventory_hostname in groups['prod']
+
+
