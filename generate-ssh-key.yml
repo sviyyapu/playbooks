@@ -1,0 +1,42 @@
+---
+- name: Generate SSH Keys for USER {{ target_user }}
+  hosts: all
+  become: true # Required to create keys for specific users and set permissions
+  vars_prompt:
+       - name: target_user
+         prompt: "Enter target user on hosts.."
+         private: false
+  vars:
+    key_comment: "{{ target_user }}@{{ ansible_hostname }}"
+    ssh_key_type: "rsa"    # Recommended over RSA for modern systems
+
+  tasks:
+    - name: Ensure the user's .ssh directory exists
+      ansible.builtin.file:
+        path: "/home/{{ target_user }}/.ssh"
+        state: directory
+        owner: "{{ target_user }}"
+        group: "{{ target_user }}"
+        mode: '0700'
+
+    - name: Generate SSH key pair for the user
+      community.crypto.openssh_keypair:
+        path: "/home/{{ target_user }}/.ssh/id_{{ ssh_key_type }}"
+        type:   "{{ ssh_key_type }}"
+        size: 1024 # Default and fixed size for ed25519
+        owner: "{{ target_user }}"
+        group: "{{ target_user }}"
+        mode: '0600'
+        comment: "{{ key_comment }}"
+        state: present
+      register: ssh_key_info
+
+    - name: Display the public key
+      ansible.builtin.debug:
+        msg: "Public key for {{ target_user }}: {{ ssh_key_info.public_key }}"
+
+#######################
+#  vars:
+#    target_user: "sandeep"      # Replace with your target username
+#    ssh_key_type: "rsa"    # Recommended over RSA for modern systems
+

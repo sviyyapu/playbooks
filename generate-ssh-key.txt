@@ -1,0 +1,36 @@
+Enter target user on hosts..: test
+
+PLAY [Generate SSH Keys for USER test] **************************************************************************************************************************************
+
+TASK [Gathering Facts] ******************************************************************************************************************************************************
+ok: [serverc]
+ok: [serverd]
+ok: [serverb]
+
+TASK [Ensure the user's .ssh directory exists] ******************************************************************************************************************************
+changed: [serverd]
+changed: [serverc]
+changed: [serverb]
+
+TASK [Generate SSH key pair for the user] ***********************************************************************************************************************************
+changed: [serverd]
+changed: [serverc]
+changed: [serverb]
+
+TASK [Display the public key] ***********************************************************************************************************************************************
+ok: [serverb] => {
+    "msg": "Public key for test: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDGqY6eEdcSA73uYZcWoBbC0fn0IXMnayS7vuXiWAozXl3gGiJu1YHbuGptnCkDTqSVr75o/k8O7GUxx6MD3SWysTONrbg5BzorxioOClMVKg+KaQcK074ojjUrSUnhBmOt5O6VzrWwPvO+FpnZrTmMVH6wDBghLE0hZfA2kONwnQ=="
+}
+ok: [serverc] => {
+    "msg": "Public key for test: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDQaiPEdMf41Z9p5I0rUVSFR4857s+Zag876IUWCJ+vFZmEu/oXCcdBiLKsGowPgfLzZGHL47XY9xqIV8U0gH4dSLXTA7/dUjO63S+2RUJ5OV5JrTzQRdiDEyEvm81tOgfKEvgcKQY9kGlOnm4UlRyBIUfPAl8X2SZP7O9htuXU+w=="
+}
+ok: [serverd] => {
+    "msg": "Public key for test: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDYna5HqMRRSHc/xBzmaZvW/rPoP2OxiukGPbRTgKBYutyFl6YFMGGfVVOnfjeYe8Yo60Zz1c48ADIylEz3m5KTVCU2cXFTMnDkJQVkNsVUI0hwSo/W1hI+yHxUuVb1sVAlqs2oEpeg7g13EOQpbs3QpKhCNJElth1G4iOXR4nQUQ=="
+}
+
+PLAY RECAP ******************************************************************************************************************************************************************
+serverb                    : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+serverc                    : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+serverd                    : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
