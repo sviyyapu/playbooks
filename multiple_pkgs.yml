@@ -1,0 +1,17 @@
+---
+  - name: Multiple packages installation using prompt
+    hosts: all
+    become: yes
+    gather_facts: no
+    vars_prompt:
+       - name: list_packages
+         prompt: "enter packages name"
+         private: false
+
+    tasks:
+    - name: install packages
+      ansible.builtin.yum:
+          name: "{{ list_packages.split() }}" 
+          disable_gpg_check: yes
+          state: present
+      
