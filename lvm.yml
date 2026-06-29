@@ -1,0 +1,42 @@
+---
+### This playbook will create a lvm of 1500 size. If space not enough, it will create with 800m.  If no VG exist, it displays message saying volume group does not exist
+  - name: LVM task
+    hosts: all
+    become: yes
+    tasks:
+    - block:
+        - name: create lv of 1500m
+          community.general.lvol:
+              vg: firefly
+              lv: test
+              size: 1500
+        - name: Create a ext4 filesystem on /dev/firefly/test
+          community.general.filesystem:
+              fstype: ext4
+              dev: /dev/firefly/test
+
+      rescue:
+        - name: cannot create lv of that size
+          debug:
+            msg: cannot create lvm of mentioned size
+
+        - name: create lv of 800m
+          community.general.lvol:
+              vg: firefly
+              lv: test
+              size: 800
+        - name: Create a ext4 filesystem on /dev/firefly/test
+          community.general.filesystem:
+              fstype: ext4
+              dev: /dev/firefly/test
+      when: ansible_lvm.vgs.firefly is defined
+
+    - name: Volume group not exist
+      debug:
+        msg: Volume group mentioned doesn't exist
+
+
+
+
+
+

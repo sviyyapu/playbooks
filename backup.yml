@@ -1,0 +1,32 @@
+---
+- name: Dynamic Backup Based on Type
+  hosts: all
+  vars_prompt:
+     - name: target_path
+       prompt: "Enter file/directory absolute path"
+       private: false
+  tasks:
+    - name: Inspect target type
+      ansible.builtin.stat:
+        path: "{{ target_path }}"
+      register: target
+
+    - name: Fail if path does not exist
+      ansible.builtin.fail:
+        msg: "The path {{ target_path }} does not exist!"
+      when: not target.stat.exists
+
+    - name: Back up as a file
+      ansible.builtin.copy:
+        src: "{{ target_path }}"
+        dest: "{{ target_path }}.bak"
+        remote_src: true
+      when: target.stat.isreg
+
+    - name: Back up as a folder
+      community.general.archive:
+        path: "{{ target_path }}"
+        dest: "{{ target_path }}_{{ ansible_date_time.iso8601_basic_short }}.tar.gz"
+        format: gz
+      when: target.stat.isdir
+

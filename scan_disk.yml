@@ -1,0 +1,23 @@
+---
+  - name: playbook
+    hosts: all
+    become: yes
+    tasks:
+    - name: native bash loop scan (if dedicated script is missing)
+      ansible.builtin.shell: |
+        for host in /sys/class/scsi_host/host*; do
+          echo "- - -" > "$host/scan"
+        done
+      changed_when: true
+
+    - name: Force udev to recognize newly discovered block layouts
+      ansible.builtin.command: udevadm trigger
+      changed_when: true
+  
+    - name: Reload Ansible setup facts to map out new disk names
+      ansible.builtin.setup:
+        filter: "ansible_devices"
+
+    - name: Print all available block devices found after scanning
+      ansible.builtin.debug:
+        msg: "Discovered storage devices: {{ ansible_facts['devices'].keys() | list }}"
